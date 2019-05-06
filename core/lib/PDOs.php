@@ -14,6 +14,7 @@ namespace core\lib;
 class PDOs
 {
     protected static $_instance = null;
+    protected static $_instance_other =null;
     protected $dbName = '';
     protected $dsn;
     protected $dbh;
@@ -48,7 +49,7 @@ class PDOs
         $sql= $this->selectgetDataMatch();
         $recordset = $this->dbh->query($sql);
         if(!is_bool($recordset)){
-            $result = $recordset->fetchAll();
+            $result = $recordset->fetchAll(\PDO::FETCH_ASSOC);
         }
         return $result;
     }
@@ -95,11 +96,19 @@ class PDOs
      */
     public static function getInstance($dbHost='', $dbUser ='', $dbPasswd  ='', $dbName ='', $dbCharset='utf8')
     {
-        if (self::$_instance === null) {
-            $info = include_once (THINKSP.'/config/database.php');
-            self::$_instance = new self($info['ip'], $info['username'], $info['password'], $info['database'], $dbCharset);
+        if(!empty($dbHost)){
+            if (self::$_instance_other === null) {
+                self::$_instance_other = new self($dbHost, $dbUser ='', $dbPasswd,$dbName,$dbCharset);
+            }
+            return self::$_instance_other;
+        }else{
+            if (self::$_instance === null) {
+                $info = include_once (THINKSP.'/config/database.php');
+                self::$_instance = new self($info['ip'], $info['username'], $info['password'], $info['database'], $dbCharset);
+            }
+            return self::$_instance;
         }
-        return self::$_instance;
+
     }
 
     /**

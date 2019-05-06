@@ -26,9 +26,6 @@ Class Build {
     private $site_prefix = '';//前缀，有的系统 为 /baiduc.com/home/user/action
     private $build_menu =true;
     private $back_name = 'Admin';
-    public function actionMenu(){
-
-    }
     public function build(){
         $app_path = $this->app_path;//要修改的
         $application = 'frontend';//要修改的

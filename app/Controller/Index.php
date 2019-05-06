@@ -14,8 +14,11 @@ use yii\web\View;
 class Index extends Base
 {
     public function index(){
-
-        return view('index');
+        $info = PDOs::getInstance()->table('work')->get();
+        $data =[
+            'work'=>$info,
+        ];
+        return view('index',$data);
     }
 
 }
