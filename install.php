@@ -1,8 +1,42 @@
 <?php
-include_once ('core/lib/cache.php');
+
 if(!empty($_POST)){
     switch ($_POST['type']){
         case 'info':
+           try{
+            set_time_limit(5);
+               $dsn = 'mysql:host=' . $_POST['ip'] . ';dbname=' . $_POST['database'];
+               $db= new PDO($dsn, $_POST['username'],$_POST['password']);
+           }catch (Exception $exception){
+                echo '数据库信息错误';exit;
+           }
+           echo "连接成功";
+           $db->query(
+               <<<TEXT
+CREATE TABLE `databae` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `host` varchar(255) NOT NULL,
+  `ip` varchar(255) NOT NULL,
+  `framework` varchar(255) NOT NULL,
+  `app_path` varchar(255) NOT NULL,
+  `database_username` varchar(255) NOT NULL,
+  `db_menu_name` varchar(255) NOT NULL COMMENT 'sys_menu',
+  `database_password` varchar(255) NOT NULL,
+  `back_name` varchar(255) NOT NULL,
+  `application` varchar(255) NOT NULL,
+  `controller_namespace` varchar(255) DEFAULT NULL,
+  `models_path` varchar(255) DEFAULT NULL,
+  `class_name` varchar(255) DEFAULT NULL,
+  `min_name` varchar(255) DEFAULT NULL,
+  `table_name` varchar(255) DEFAULT NULL,
+  `view_path` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+TEXT
+);
+           $db->query('');
+           $db =null;
             $path = 'config/database.php';
             $insert = '<?php return ['.PHP_EOL.
                 '"ip"=>"'.$_POST['ip'].'",'.
@@ -13,6 +47,11 @@ if(!empty($_POST)){
             file_put_contents($path,$insert);
             break;
     }
+
+    /*
+     * 创建系统自有的数据库
+     */
+    header("location:/");
 }
 
 ?>

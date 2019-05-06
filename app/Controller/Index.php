@@ -11,11 +11,10 @@ use yii\web\View;
  * Date: 2018/9/10
  * Time: 21:28
  */
-class Index
+class Index extends Base
 {
     public function index(){
-//       $data =PDOs::getInstance()->table('sys_menu')->get();
-//       var_dump($data);
+
         return view('index');
     }
 

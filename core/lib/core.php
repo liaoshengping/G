@@ -1,6 +1,11 @@
 <?php
-function view($name)
+function view($name,array $data =[])
 {
+    if (!empty($data)) {
+        foreach ($data as $key => $value) {
+            ${$key} = $value;
+        }
+    }
     $route = new \core\lib\Route();
     $controller = $route->controller;
     $path = APP . 'view/' . strtolower($controller) . '/' . $name . '.php';
