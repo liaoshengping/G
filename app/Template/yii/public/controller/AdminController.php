@@ -1,30 +1,15 @@
-<?php
+<?php echo '<?php'?>
 
 
-namespace backend\controllers;
+namespace <?php echo $application_name_path ?>\controllers;
 
 
-use app\models\SysMenu;
+
 use yii\web\Controller;
 
 class AdminController extends Controller
 {
     public function actionIndex(){
-        $find=SysMenu::find();
-        $res = $find->where(['is_delete'=>0])->asArray()->all();
-        $data =$this->getTree($res,0);
-        return $this->render('index',['data'=>$data]);
+        return $this->render('index');
     }
-    function getTree($data, $pId=0)
-    {
-        $tree = [];
-        foreach ($data as $k => $v) {
-            if ($v['pid'] == $pId) {
-                $v['children_arr'] = $this->getTree($data, $v['id']);
-                $tree[] = $v;
-            }
-        }
-        return $tree;
-    }
-
 }

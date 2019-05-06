@@ -10,6 +10,7 @@
 define('THINKSP', getcwd());
 define('CORE', THINKSP . '/core/');
 define('APP', THINKSP . '/app/');
+define('FRAMEWORK','yii'); //你要渲染的框架
 define('MODULE', 'app');
 define('DEBUG', true);
 if ('DEBUG' == true) {

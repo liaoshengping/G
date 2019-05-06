@@ -1,4 +1,4 @@
-<input name="_csrf-frontend"id="token" type="hidden" value="<?= Yii::$app->request->csrfToken ?>"/>
+<input name="_csrf-frontend"id="token" type="hidden" value="<?php echo '<?= Yii::$app->request->csrfToken ?>' ?>"/>
 <!DOCTYPE html>
 <html>
 
