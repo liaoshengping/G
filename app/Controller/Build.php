@@ -34,9 +34,9 @@ Class Build {
         $application = 'frontend';//要修改的
         $controller_namespace = "\controllers";
         $models_path = '/models';
-        $class_name = 'SysMenu';
-        $min_name = 'sys-menu';
-        $table_name = 'sys_menu';
+        $class_name = 'Test2';
+        $min_name = 'test2';
+        $table_name = 'test2';
         $view_path ="views";
         $menu_url = $min_name.'/';
         $controller_name = $class_name.'Controller';//大写
