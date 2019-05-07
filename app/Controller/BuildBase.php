@@ -56,6 +56,9 @@ class BuildBase
             $this->table_name = $_POST['table_name'];
             $this->view_path = $_POST['view_path'];
             $this->min_name = $_POST['min_name'];
+            $this->table_infos = $_POST;
+            global $table_infos;
+            $table_infos = $_POST;
         }
     }
 }

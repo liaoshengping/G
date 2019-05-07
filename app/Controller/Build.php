@@ -3,9 +3,24 @@
 namespace app\Controller;
 
 use app\Service\Mysql;
+use app\Service\yii\Init;
 use core\lib\PDOs;
 
 Class Build extends BuildBase {
+    protected $sys_data =[];
+    public function __construct()
+    {
+        parent::__construct();
+        $this->sys_data = [
+            'controller_namespace'=>$this->application.$this->controller_namespace,
+            'controller_class_name'=>$this->class_name.'Controller',
+            'class_name'=>$this->class_name,
+            'site_prefix'=>$this->site_prefix,
+            'application_name_path'=>$this->application,
+        ];
+        global $sys_data;
+        $sys_data = $this->sys_data;
+    }
 
     public function build(){
         $have_sys_menu=$this->PDO()->haveTable('sys_menu');
@@ -26,13 +41,7 @@ Class Build extends BuildBase {
         /*
          * 生成控制器
          */
-        $sys_data = [
-            'controller_namespace'=>$application.$controller_namespace,
-            'controller_class_name'=>$controller_name,
-            'class_name'=>$class_name,
-            'site_prefix'=>$this->site_prefix,
-            'application_name_path'=>$application,
-        ];
+        $sys_data = $this->sys_data;
         //控制器生成
         $controller =  render('controller/controller.php',$sys_data);
         file_put_contents($app_path.$controller_namespace.'/'.$controller_name.'.php',$controller);
@@ -76,7 +85,7 @@ Class Build extends BuildBase {
         }
 
         echo "创建成功";
-        $this->generate_public($app_path,$sys_data);
+//        $this->generate_public($app_path,$sys_data);
 
     }
 
@@ -137,53 +146,9 @@ Class Build extends BuildBase {
         echo $js_dir.'/'.$obj.'.js'.PHP_EOL;
     }
 
-    /**
-     * 首次生成基础框架
-     * @param $app_path
-     * @param $sys_data
-     */
-    public function generate_public($app_path, $sys_data){
 
-        /*
-         * 控制器
-         */
-        $this->generate('public/controller/AdminController.php',$app_path.'/controllers/'.$this->back_name.'Controller.php',$sys_data);
-        $this->generate('public/controller/BaseController.php',$app_path.'/controllers/BaseController.php',$sys_data);
-        $this->generate('public/controller/SysMenuController.php',$app_path.'/controllers/SysMenuController.php',$sys_data);
-        /*
-         * 视图
-         */
-        $this->generate('public/views/admin/index.php',$app_path.'/views/admin/index.php',$sys_data);
-        /*
-         * js
-         */
-        $this->generate('js/admin/index.js',$app_path.$this->js_dir.'admin/index.js');
-        $this->generate('js/common.js',$app_path.$this->js_dir.'common.js');
-        /*
-         * 模型
-         */
-        $this->generate('public/model/BaseModel.php',$app_path.'/models/BaseModel.php',$sys_data);
 
-        /*
-         * 后台静态资源
-         */
-        copydir(APP.'Template/'.FRAMEWORK.'/public/html',$this->app_path.'/web/html/');
-        /*
-         * views 公共文件加载js 还有css
-         */
-        copydir(APP.'Template/'.FRAMEWORK.'/views/common',$this->app_path.'/views/common');
 
-    }
-
-    /**
-     * @param string $origin 源头
-     * @param string $theTarget 目标
-     * @param array $render_data 渲染数据
-     */
-    public function generate($origin='' , $theTarget='', $render_data=[],$type=''){
-        $render = render($origin,$render_data);
-        file_put_contents($theTarget,$render);
-    }
     public function PDO(){
      return PDOs::getInstance($_POST['host'],$_POST['database_username'],$_POST['database_password'],$_POST['database_name'],'utf8');
     }
@@ -193,6 +158,15 @@ Class Build extends BuildBase {
         $render = ['id'=>$id,'data'=>$data];
         return view('index',$render);
     }
+
+    /**
+     * 初始化系统
+     */
+    public function init(){
+        (new Init())->generate_public();
+    }
+
+
 
 }
 
