@@ -10,7 +10,7 @@
 define('THINKSP', getcwd());
 define('CORE', THINKSP . '/core/');
 define('APP', THINKSP . '/app/');
-define('FRAMEWORK','yii'); //你要渲染的框架
+
 define('MODULE', 'app');
 define('DEBUG', true);
 if ('DEBUG' == true) {
@@ -21,7 +21,7 @@ if ('DEBUG' == true) {
 include CORE . 'lib/cache.php';
 //判断是否安装程序
 if (!is_file(THINKSP.'/config/database.php')) {
-    header("location:install.php");
+    header("location:/install.php");
 }
 //加载公用函数
 include CORE . 'common/function.php';

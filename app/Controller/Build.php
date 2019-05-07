@@ -2,39 +2,25 @@
 
 namespace app\Controller;
 
+use app\Service\Mysql;
 use core\lib\PDOs;
-use yii\debug\panels\DumpPanel;
 
-Class Build {
-    private $db_menu_name ='sys_menu';
-    private $name_zn =[
-        'index'=>'列表',
-        'view'=>'查看详情',
-        'create'=>'创建',
-        'delete'=>'删除',
-        'update'=>'更新',
-    ];
-    private $post_api =[
-        'delete',
-        'update',
-        'order',//排序
-    ];
-    private $app_path = 'E:\linuxdir\php\yii-advanced\frontend';//要修改的
-    private $database_name = 'nocode';
-    private $js_dir ='/web/application/';
-    private $js_dir_app ='/application/';
-    private $site_prefix = '';//前缀，有的系统 为 /baiduc.com/home/user/action
-    private $build_menu =true;
-    private $back_name = 'Admin';
+Class Build extends BuildBase {
+
     public function build(){
+        $have_sys_menu=$this->PDO()->haveTable('sys_menu');
+        if(!$have_sys_menu){
+            (new Mysql())->buildSysMenu();
+            echo "<script>alert('不存在mysql 已经帮您创建数据表sys_menu')</script>";
+        }
         $app_path = $this->app_path;//要修改的
-        $application = 'frontend';//要修改的
-        $controller_namespace = "\controllers";
-        $models_path = '/models';
-        $class_name = 'Test2';
-        $min_name = 'test2';
-        $table_name = 'test2';
-        $view_path ="views";
+        $application = $this->application;//要修改的
+        $controller_namespace = $this->controller_namespace;
+        $models_path = $this->models_path;
+        $class_name = $this->class_name;
+        $min_name = $this->min_name;
+        $table_name = $this->table_name;
+        $view_path =$this->view_path;
         $menu_url = $min_name.'/';
         $controller_name = $class_name.'Controller';//大写
         /*
@@ -197,7 +183,13 @@ Class Build {
         file_put_contents($theTarget,$render);
     }
     public function PDO(){
-     return PDOs::getInstance();
+     return PDOs::getInstance($_POST['host'],$_POST['database_username'],$_POST['database_password'],$_POST['database_name'],'utf8');
+    }
+    public function index(){
+        $id = $_GET['id'];
+        $data =PDOs::getInstance()->table('work')->where('id='.$id)->find();
+        $render = ['id'=>$id,'data'=>$data];
+        return view('index',$render);
     }
 
 }

@@ -13,8 +13,8 @@ if(!empty($_POST)){
            echo "连接成功";
            $db->query(
                <<<TEXT
-CREATE TABLE `databae` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `work` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `host` varchar(255) NOT NULL,
   `ip` varchar(255) NOT NULL,
@@ -32,7 +32,8 @@ CREATE TABLE `databae` (
   `table_name` varchar(255) DEFAULT NULL,
   `view_path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
 TEXT
 );
            $db->query('');

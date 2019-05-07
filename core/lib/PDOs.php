@@ -30,6 +30,7 @@ class PDOs
     private function __construct($dbHost='127.0.0.1', $dbUser='root', $dbPasswd='root', $dbName='nocode', $dbCharset='utf8')
     {
         try {
+            $this->dbName = $dbName;
             $this->dsn = 'mysql:host=' . $dbHost . ';dbname=' . $dbName;
             $this->dbh = new \PDO($this->dsn, $dbUser, $dbPasswd);
             $this->dbh->exec('SET character_set_connection=' . $dbCharset . ', character_set_results=' . $dbCharset . ', character_set_client=binary');
@@ -50,6 +51,8 @@ class PDOs
         $recordset = $this->dbh->query($sql);
         if(!is_bool($recordset)){
             $result = $recordset->fetchAll(\PDO::FETCH_ASSOC);
+        }else{
+            return $recordset;
         }
         return $result;
     }
@@ -63,7 +66,7 @@ class PDOs
         $sql= $this->selectgetDataMatch();
         $recordset = $this->dbh->query($sql);
         if(!is_bool($recordset)) {
-            $recordset = $recordset->fetch();
+            $recordset = $recordset->fetch(\PDO::FETCH_ASSOC);
         }
         return $recordset;
     }
@@ -98,7 +101,7 @@ class PDOs
     {
         if(!empty($dbHost)){
             if (self::$_instance_other === null) {
-                self::$_instance_other = new self($dbHost, $dbUser ='', $dbPasswd,$dbName,$dbCharset);
+                self::$_instance_other = new self($dbHost, $dbUser, $dbPasswd,$dbName,$dbCharset);
             }
             return self::$_instance_other;
         }else{
@@ -445,4 +448,21 @@ class PDOs
     {
         return $this->dbh->exec($sql);
     }
+
+    /**
+     *  判断表是否存在
+     */
+    public function haveTable($table,$debug=false){
+        $sql = "SELECT count(0)as count FROM information_schema.TABLES WHERE table_schema='".$this->dbName."' and table_name='".$table."';";
+        if($debug ==true){
+            die($sql);
+        }
+        $res = $this->query($sql);
+        if($res[0]['count'] >0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

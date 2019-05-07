@@ -27,7 +27,7 @@
         <?php
         //    var_dump($work);exit;
         foreach ($work as $value){
-            echo '<tr><td><button type="button" class="btn btn-primary">进入</button></td>';
+            echo '<tr><td><a href="build/index/?id='.$value["id"].'" type="button" class="btn btn-primary">进入</a></td>';
             foreach ($value as $key=>$values){
                 echo '<td>'.$values.'</td>'.' ';
             }

@@ -2,7 +2,6 @@
 namespace app\Controller;
 
 use core\lib\PDOs;
-use yii\web\View;
 
 /**
  * Created by PhpStorm.
@@ -11,10 +10,13 @@ use yii\web\View;
  * Date: 2018/9/10
  * Time: 21:28
  */
-class Index extends Base
+class Index
 {
     public function index(){
         $info = PDOs::getInstance()->table('work')->get();
+        if(empty($info)){
+            die('没有相关数据,请添加');
+        }
         $data =[
             'work'=>$info,
         ];
