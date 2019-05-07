@@ -10,7 +10,6 @@
 define('THINKSP', getcwd());
 define('CORE', THINKSP . '/core/');
 define('APP', THINKSP . '/app/');
-
 define('MODULE', 'app');
 define('DEBUG', true);
 if ('DEBUG' == true) {

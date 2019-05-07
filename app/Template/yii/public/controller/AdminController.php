@@ -1,7 +1,7 @@
 <?php echo '<?php'?>
 
 
-namespace <?php echo $application_name_path ?>\controllers;
+namespace <?php echo $application_name_path ?>\controllers;////
 
 
 

@@ -8,4 +8,6 @@
     ?>
     <input type="submit" class="btn btn-primary" value="生成一个数据表对应结构">
 </form>
-
+<form>
+    <input type="submit" class="btn btn-primary" value="初始化项目">
+</form>

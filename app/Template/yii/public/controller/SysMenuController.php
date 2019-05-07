@@ -45,9 +45,22 @@ Class SysMenuController extends BaseController{
         }
     }
     public function actionCreate(){
-        if(\Yii::$app->request->post()){
+        if($post_data =\Yii::$app->request->post()){
+        if(!empty($post_data['id'])){
+        //更新
+        $id = $post_data['id'];
+        unset($post_data['id']);
+        unset($post_data['_csrf']);
+        $res = (new SysMenu())->updateData(['id'=>$id],$post_data);
+        if($res){
+        return $this->success($res);
+        }else{
+        //新增
+        return $this->error();
+        }
         }else{
         return $this->render('create');
+        }
         }
     }
     public function actionView(){

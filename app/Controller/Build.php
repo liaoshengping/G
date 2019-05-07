@@ -91,11 +91,13 @@ Class Build extends BuildBase {
         $path = $this->site_prefix.'/'.$paths.$obj;
 //        $this->query();
         $menu_db =$this->PDO()->table($this->db_menu_name)->where('url="'.$path.'" and is_delete=0 and is_url = 1')->find();
+//        echo $path;exit;
         if($menu_db){
             return true;
         }
         //类的顶级菜单
         $class_info = $this->PDO()->table($this->db_menu_name)->where('class="'.$min_name.'"  and is_url = 0')->find();
+
         if(!$class_info){
             //创建一个父级
             $pid =$this->PDO()->table($this->db_menu_name)->insert([
