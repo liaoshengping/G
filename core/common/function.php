@@ -9,7 +9,7 @@
 /**
  * @param string $origin 源头
  * @param string $theTarget 目标
- * @param array $render_data 渲染数据
+ * @param array $render_data 渲染数据s
  */
  function generate($origin='' , $theTarget='', $render_data=[],$type=''){
      //储存在文件夹，则创建
