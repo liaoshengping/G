@@ -12,7 +12,7 @@ var app =new Vue({
     },
     methods: {
         get:function () {
-            $.post('sys-menu/menu',{'_csrf':token},function (res) {
+            $.post('sys-menu/menu',{'_csrf-backend':token},function (res) {
                 app.menu_data = res.result;
                 load_menu()//加载完数据之后渲染菜单，恶心啊
             },'JSON')

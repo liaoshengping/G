@@ -35,6 +35,7 @@ class Init
          * 模型
          */
         generate('public/model/BaseModel.php',$app_path.'/models/BaseModel.php',$sys_data);
+//        generate('public/model/SysTemModel.php',$app_path.'/models/BaseModel.php',$sys_data);
 
         /*
          * 后台静态资源
