@@ -21,3 +21,19 @@ function generate($origin = '', $theTarget = '', $render_data = [], $type = '')
     $render = render($origin, $render_data);
     file_put_contents($theTarget, $render);
 }
+function alert($msg='我是提示',$url='/'){
+    $script='';
+    $script.= '<body><script>';
+    $script.= 'alert("'.$msg.'");';
+    $script.= 'window.location.href="'.$url.'";reload();';
+    $script.= '</script></body>';
+    echo $script;exit;
+}
+function back($msg='失败',$url='/'){
+    $script='';
+    $script.= '<body><script>';
+    $script.= 'alert("'.$msg.'");';
+    $script.= 'window.history.go(-1);reload();';
+    $script.= '</script></body>';
+    echo $script;exit;
+}

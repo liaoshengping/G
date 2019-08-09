@@ -22,3 +22,6 @@
     ?>
     <input type="submit" class="btn btn-primary" value="初始化项目">
 </form>
+
+-----<br>
+<a href="/model/generate/id/<?php echo $_GET['id'] ?>">生成一个模型</a>

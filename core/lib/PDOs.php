@@ -15,7 +15,7 @@ class PDOs
 {
     protected static $_instance = null;
     protected static $_instance_other =null;
-    protected $dbName = '';
+    public $dbName = '';
     protected $dsn;
     protected $dbh;
     public $table =[];
@@ -35,6 +35,7 @@ class PDOs
             $this->dbh = new \PDO($this->dsn, $dbUser, $dbPasswd);
             $this->dbh->exec('SET character_set_connection=' . $dbCharset . ', character_set_results=' . $dbCharset . ', character_set_client=binary');
         } catch (\PDOException $e) {
+//            echo $e->getLine();exit;
             $this->outputError($e->getMessage());
         }
     }
@@ -53,6 +54,21 @@ class PDOs
             $result = $recordset->fetchAll(\PDO::FETCH_ASSOC);
         }else{
             return $recordset;
+        }
+        return $result;
+    }
+    public function one(){
+        $sql= $this->selectgetDataMatch();
+        $recordset = $this->dbh->query($sql);
+        if(!is_bool($recordset)){
+            $result = $recordset->fetchAll(\PDO::FETCH_ASSOC);
+        }else{
+            if(!empty($recordset[0])){
+                return $recordset[0];
+            }else{
+                return [];
+            }
+
         }
         return $result;
     }

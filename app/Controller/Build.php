@@ -159,6 +159,7 @@ Class Build extends BuildBase {
         return view('index',$render);
     }
 
+
     /**
      * 初始化系统
      */
