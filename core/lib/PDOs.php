@@ -63,14 +63,13 @@ class PDOs
         if(!is_bool($recordset)){
             $result = $recordset->fetchAll(\PDO::FETCH_ASSOC);
         }else{
-            if(!empty($recordset[0])){
-                return $recordset[0];
-            }else{
-                return [];
-            }
-
+            return [];
         }
-        return $result;
+        if(!empty($result[0])){
+            return $result[0];
+        }else{
+            return [];
+        }
     }
     public function order($filed,$desc){
         $this->orderFiled = $filed;
@@ -116,10 +115,17 @@ class PDOs
     public static function getInstance($dbHost='', $dbUser ='', $dbPasswd  ='', $dbName ='', $dbCharset='utf8')
     {
         if(!empty($dbHost)){
-            if (self::$_instance_other === null) {
-                self::$_instance_other = new self($dbHost, $dbUser, $dbPasswd,$dbName,$dbCharset);
+            if (self::$_instance_other[$dbHost] === null) {
+                $info = include_once (THINKSP.'/config/database.php');
+                $pdo =self::$_instance = new self($info['ip'], $info['username'], $info['password'], $info['database'], $dbCharset);
+                $data =$pdo->table('work')->where('id='.$dbHost)->one();
+                if(!isset($data)){
+                    throw new \Exception('没有该系统，请传入正确的id');
+                }
+//                print_r($data);exit;
+                self::$_instance_other[$dbHost] = new self($data['host'], $data['database_username'], $data['database_password'],$data['database_name'],$dbCharset);
             }
-            return self::$_instance_other;
+            return self::$_instance_other[$dbHost];
         }else{
             if (self::$_instance === null) {
                 $info = include_once (THINKSP.'/config/database.php');

@@ -15,15 +15,25 @@
 </div>
 <body >
 <div class="container">
-    <form class="form-control">
+    <form class="form-control" method="post" action="/model/generate/id/<?php echo $work['id']?>">
         <h2>生成模型</h2>
         <label class="label">表名</label>
-        <input class="form-control">
-        <label class="label">模型路径/（根目录之后的）</label>
-        <input class="form-control">
-        <div class="form-control ">
-            <input class="btn btn-primary " type="submit" value="提交" >
-        </div>
+        <select  class="form-control" name="table_name" id="select">
+            <?php
+                foreach ($data as $key=>$value){
+                    echo '      <option>'.$value['table_name'].'</option>';
+                }
+            ?>
+
+        </select>
+
+            <label class="label">模型路径/（根目录之后的）</label>
+            <input class="form-control" name="model_path" value="<?php echo $work['models_path']?>">
+            <input class="form-control" type="hidden" name="framework" value="<?php echo $work['framework']?>">
+            <div class="form-control ">
+                <input class="btn btn-primary " type="submit" value="提交" >
+            </div>
+
     </form>
 </div>
 

@@ -155,6 +155,7 @@ Class Build extends BuildBase {
     public function index(){
         $id = $_GET['id'];
         $data =PDOs::getInstance()->table('work')->where('id='.$id)->find();
+        cache('id',$id);
         $render = ['id'=>$id,'data'=>$data];
         return view('index',$render);
     }
