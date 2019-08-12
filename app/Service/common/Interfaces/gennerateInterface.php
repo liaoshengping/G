@@ -6,7 +6,7 @@
  * Time: 14:53
  */
 
-namespace app\Service\laravel\model;
+namespace app\Service\common\Interfaces;
 
 
 interface gennerateInterface

@@ -119,12 +119,19 @@ class PDOs
                 $info = include_once (THINKSP.'/config/database.php');
                 $pdo =self::$_instance = new self($info['ip'], $info['username'], $info['password'], $info['database'], $dbCharset);
                 $data =$pdo->table('work')->where('id='.$dbHost)->one();
+//                print_r($data);exit;
+//                echo 'kkk';exit;
                 if(!isset($data)){
                     throw new \Exception('没有该系统，请传入正确的id');
                 }
 //                print_r($data);exit;
-                self::$_instance_other[$dbHost] = new self($data['host'], $data['database_username'], $data['database_password'],$data['database_name'],$dbCharset);
+                try{
+                    self::$_instance_other[$dbHost] = new self($data['host'], $data['database_username'], $data['database_password'],$data['database_name'],$dbCharset);
+                }catch (\Exception $e){
+                    throw new \Exception('数据库配置不正确'.json_encode($data));
+                }
             }
+//            echo 'kk';exit;
             return self::$_instance_other[$dbHost];
         }else{
             if (self::$_instance === null) {

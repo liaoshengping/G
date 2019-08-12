@@ -23,6 +23,7 @@ if (!is_file(THINKSP.'/config/database.php')) {
     header("location:/install.php");
 }
 //加载公用函数
+include('vendor/autoload.php');
 include CORE . 'common/function.php';
 include CORE . 'lib/core.php';
 include CORE . 'Thinksp.php';
