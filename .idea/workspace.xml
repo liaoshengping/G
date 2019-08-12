@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbc6d442-ed1a-41d9-9ace-24360af6b507" name="Default" comment="提交测试git">
-      <change afterPath="$PROJECT_DIR$/app/Template/laravel/初始化/QueryBase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/thinksp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/thinksp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controller/Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controller/Model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Service/laravel/model/Generate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Service/laravel/model/Generate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Service/laravel/model/gennerateInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Service/common/Interfaces/gennerateInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/lib/PDOs.php" beforeDir="false" afterPath="$PROJECT_DIR$/core/lib/PDOs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runtime/cache/09/098f6bcd4621d373cade4e832627b4f6" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runtime/cache/14/1469fe3b0eadf65a6df1d5925bab7005" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runtime/cache/b8/b80bb7740288fda1f201890375a60c8f" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Template/laravel/初始化/QueryBase.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Template/laravel/初始化/QueryBase.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Service/laravel/model/Generate.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+            <state relative-caret-position="294">
+              <caret line="126" column="17" lean-forward="true" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -85,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Template/laravel/初始化/QueryBase.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="563">
-              <caret line="45" column="14" lean-forward="true" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
+            <state relative-caret-position="-759">
+              <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -106,8 +97,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Controller/Model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+            <state relative-caret-position="132">
+              <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
               <folding>
                 <element signature="e#38#69#0#PHP" expanded="true" />
               </folding>
@@ -207,8 +198,8 @@
         <option value="$PROJECT_DIR$/app/Service/common/Interface/gennerateInterface.php" />
         <option value="$PROJECT_DIR$/app/Service/common/Interfaces/gennerateInterface.php" />
         <option value="$PROJECT_DIR$/app/Template/laravel/初始化模板/QueryBase.php" />
-        <option value="$PROJECT_DIR$/app/Service/laravel/model/Generate.php" />
         <option value="$PROJECT_DIR$/app/Template/laravel/初始化/QueryBase.php" />
+        <option value="$PROJECT_DIR$/app/Service/laravel/model/Generate.php" />
       </list>
     </option>
   </component>
@@ -437,7 +428,7 @@
       <workItem from="1565600531356" duration="1134000" />
       <workItem from="1565601711349" duration="1161000" />
       <workItem from="1565602966929" duration="21000" />
-      <workItem from="1565603634351" duration="73000" />
+      <workItem from="1565603634351" duration="733000" />
     </task>
     <task id="LOCAL-00001" summary="数据库信息">
       <created>1557133830835</created>
@@ -492,7 +483,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98371000" />
+    <option name="totallyTimeSpent" value="99031000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -508,7 +499,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.06832972" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.09652928" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Messages" order="10" />
@@ -803,13 +794,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Service/laravel/model/Generate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/liaosp/tool/src/String/Character.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -851,20 +835,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Template/laravel/初始化/QueryBase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-759">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Controller/Model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+        <state relative-caret-position="132">
+          <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
           <folding>
             <element signature="e#38#69#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Template/laravel/初始化/QueryBase.php">
+    <entry file="file://$PROJECT_DIR$/app/Service/laravel/model/Generate.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="563">
-          <caret line="45" column="14" lean-forward="true" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
+        <state relative-caret-position="294">
+          <caret line="126" column="17" lean-forward="true" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="17" />
         </state>
       </provider>
     </entry>

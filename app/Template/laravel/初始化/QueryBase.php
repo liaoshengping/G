@@ -1,9 +1,9 @@
 <?php
 
-namespace sdf\sdfsd;
+namespace demo\test;
 /**
  * 部署时填写
- * 1.namespace
+ * 1.填写namespace
  * 2.获取list 具体方案getListByFind
  * 3.获取one 具体方案
  */

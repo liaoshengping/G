@@ -72,13 +72,13 @@ table_schema = '" . $obj->dbName . "'
         $Obj_Bname = Character::convertUnderline($obj_name);
         $data =  'public static function getOneBy'.$Obj_Bname.'($'.$obj_name.')
         {
-            return $this->getOneByFind($this->findByfindBy'.$Obj_Bname.'($'.$obj_name.'))
+            return $this->getOneByFind($this->findBy'.$Obj_Bname.'($'.$obj_name.'))
            
         }'.PHP_EOL;
 
         $data.=  'public static function getListBy'.$Obj_Bname.'($'.$obj_name.')
         {
-            return $this->getOneByFind($this->findByfindBy'.$Obj_Bname.'($'.$obj_name.'))
+            return $this->getOneByFind($this->findBy'.$Obj_Bname.'($'.$obj_name.'))
            
         }'.PHP_EOL;
         return $data;
