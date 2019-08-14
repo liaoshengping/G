@@ -116,15 +116,12 @@ class PDOs
     {
         if(!empty($dbHost)){
             if (self::$_instance_other[$dbHost] === null) {
-                $info = include_once (THINKSP.'/config/database.php');
+                $info = require (THINKSP.'/config/database.php');
                 $pdo =self::$_instance = new self($info['ip'], $info['username'], $info['password'], $info['database'], $dbCharset);
                 $data =$pdo->table('work')->where('id='.$dbHost)->one();
-//                print_r($data);exit;
-//                echo 'kkk';exit;
                 if(!isset($data)){
                     throw new \Exception('没有该系统，请传入正确的id');
                 }
-//                print_r($data);exit;
                 try{
                     self::$_instance_other[$dbHost] = new self($data['host'], $data['database_username'], $data['database_password'],$data['database_name'],$dbCharset);
                 }catch (\Exception $e){
@@ -193,6 +190,7 @@ class PDOs
         } else {
             $strSql = "REPLACE INTO `$table` (`" . implode('`,`', array_keys($arrayDataValue)) . "`) VALUES ('" . implode("','", $arrayDataValue) . "')";
         }
+        $strSql = str_replace("\\", "\\\\", $strSql);
         if ($debug === true) $this->debug($strSql);
         $result = $this->dbh->exec($strSql);
         $this->getPDOError();

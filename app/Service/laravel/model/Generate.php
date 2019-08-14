@@ -9,25 +9,27 @@
 namespace app\Service\laravel\model;
 
 
+use app\Service\common\Base;
 use app\Service\common\Interfaces\gennerateInterface;
 use core\lib\PDOs;
 use Liaosp\Tool\String\Character;
 
-class Generate implements gennerateInterface
+class Generate extends Base implements gennerateInterface
 {
     public $attribute;
     public $functions;
     public $query;
     public $table_name;
-    public $table_info;
+    public $convert_name;
+    public $cloumn_list;
 
     public function generate($table_name, $id = '')
     {
-//        echo $id;exit;
         if (empty($id)) {
             $id = cache('id');
         }
         $obj = PDOs::getInstance($id);
+        //获取数据表
         $pdo = $obj->query("select
 COLUMN_NAME as name,COLUMN_COMMENT as comment
             FROM INFORMATION_SCHEMA.COLUMNS
@@ -35,7 +37,8 @@ where
 table_schema = '" . $obj->dbName . "'
  and table_name = '" . $table_name . "'");
         $this->table_name = $table_name;
-        $this->table_info = PDOs::getInstance()->where('id='.$id)->one();
+        $this->convert_name = Character::convertUnderline($this->table_name);
+        $this->cloumn_list = $pdo;
         $this->detail($pdo);
     }
 
@@ -52,18 +55,21 @@ table_schema = '" . $obj->dbName . "'
 
     public function finish()
     {
-        define('FRAMEWORK',$this->table_info['framework']); //你要渲染的框架
+        //你要渲染的框架
         $render_data =[
             'base_namespace'=>'',
             'model_namespace'=>'',
             'attribute'=>$this->attribute,
             'functions'=>$this->functions,
             'query'=>$this->query,
+            'table_info'=>$this->table_name,
+            'convert_name'=>$this->convert_name,
+            'cloumn_list'=>$this->cloumn_list,
         ];
         //生成base
-        generate('','','','');
+        generate('model/base/modelQuery.php',$this->app_path.$this->models_path.'/base/'.$this->convert_name.'Query.php',$render_data,'');
         //生成model
-        generate('','','','');
+        generate('model/model.php',$this->app_path.$this->models_path.'/'.$this->convert_name.'.php',$render_data,'');
         exit;
     }
 
@@ -74,8 +80,9 @@ table_schema = '" . $obj->dbName . "'
     {
         $attribute = '';
         $query = '';
-        $attribute .= "const IS_DELETE =1;" . PHP_EOL;
-        $attribute .= "const NOT_DELETE =0;" . PHP_EOL;
+//        $attribute .='
+//        '.PHP_EOL."const IS_DELETE =1;" . PHP_EOL;
+//        $attribute .= "const NOT_DELETE =0;" . PHP_EOL;
 
         foreach ($data as $key => $value) {
             $attribute .= $this->handleComment($value);
@@ -87,18 +94,31 @@ table_schema = '" . $obj->dbName . "'
      * 生成函数
      */
     public function functions($obj)
-    {
+    {   $data ='';
         $obj_name = $obj['name'];
         $Obj_Bname = Character::convertUnderline($obj_name);
-        $data = 'public static function getOneBy' . $Obj_Bname . '($' . $obj_name . ')
+        $data .= '
+        /**
+        * 获取一条数据条件：'.$obj_name.'
+        * @param $'.$obj_name.'
+        * @return mixed
+        */
+        ';
+        $data .= 'public static function getOneBy' . $Obj_Bname . '($' . $obj_name . ')
         {
-            return $this->getOneByFind($this->findBy' . $Obj_Bname . '($' . $obj_name . '))
+            return static::getOneByFind(static::findBy' . $Obj_Bname . '($' . $obj_name . '));
 
         }' . PHP_EOL;
-
+        $data .= '
+        /**
+        * 获取列表条件：'.$obj_name.'
+        * @param $'.$obj_name.'
+        * @return mixed
+        */
+        ';
         $data .= 'public static function getListBy' . $Obj_Bname . '($' . $obj_name . ')
         {
-            return $this->getOneByFind($this->findBy' . $Obj_Bname . '($' . $obj_name . '))
+            return static::getOneByFind(static::findBy' . $Obj_Bname . '($' . $obj_name . '));
 
         }' . PHP_EOL;
         return $data;
@@ -111,11 +131,18 @@ table_schema = '" . $obj->dbName . "'
      */
     public static function query($obj_name)
     {
+        $data ='';
         $Obj_Bname = Character::convertUnderline($obj_name);
-        $data = 'public function findBy' . $Obj_Bname . '($' . $obj_name . ')
+        $data .= '
+        /**
+        * 查询条件：'.$obj_name.'
+        * @param $'.$obj_name.'
+        * @return Builder
+        */
+        ';
+        $data.= 'public static function findBy' . $Obj_Bname . '($' . $obj_name . ')
         {
-            $this->andWhere(["' . $obj_name . '"=>$' . $obj_name . ']);
-            return $this;
+            return static::query()->where(["' . $obj_name . '"=>$' . $obj_name . ']);
         }' . PHP_EOL;
         return $data;
     }
