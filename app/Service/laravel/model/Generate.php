@@ -22,9 +22,11 @@ class Generate extends Base implements gennerateInterface
     public $table_name;
     public $convert_name;
     public $cloumn_list;
+    public $laravel_attr;
 
     public function generate($table_name, $id = '')
     {
+
         if (empty($id)) {
             $id = cache('id');
         }
@@ -39,6 +41,7 @@ table_schema = '" . $obj->dbName . "'
         $this->table_name = $table_name;
         $this->convert_name = Character::convertUnderline($this->table_name);
         $this->cloumn_list = $pdo;
+        $this->init();
         $this->detail($pdo);
     }
 
@@ -50,27 +53,77 @@ table_schema = '" . $obj->dbName . "'
             $this->query .= $this->query($value['name']);
             $this->functions .= $this->functions($value);
         }
+        $this->laravel_attr();
         $this->finish();
+    }
+
+    /**
+     * 初始化
+     */
+    public function init()
+    {
+        //检测是否存在基础查询类
+        $file = $this->app_path . $this->models_path . '/base/QueryBase.php';
+        if (is_file($file)) {
+            return true;
+        }
+        generate('init/QueryBase.php', $file);
+
     }
 
     public function finish()
     {
         //你要渲染的框架
-        $render_data =[
-            'base_namespace'=>'',
-            'model_namespace'=>'',
-            'attribute'=>$this->attribute,
-            'functions'=>$this->functions,
-            'query'=>$this->query,
-            'table_info'=>$this->table_name,
-            'convert_name'=>$this->convert_name,
-            'cloumn_list'=>$this->cloumn_list,
+        $prifix = explode('_', $this->table_name);
+        $render_data = [
+            'base_namespace' => '',
+            'model_namespace' => '',
+            'laravel_attr'=>$this->laravel_attr,
+            'attribute' => $this->attribute,
+            'functions' => $this->functions,
+            'query' => $this->query,
+            'table_info' => $this->table_name,
+            'convert_name' => $this->convert_name,
+            'cloumn_list' => $this->cloumn_list,
+            'prifix' => $prifix[0],
         ];
+        //添加laravel 特有的
+
         //生成base
-        generate('model/base/modelQuery.php',$this->app_path.$this->models_path.'/base/'.$this->convert_name.'Query.php',$render_data,'');
+        generate('model/base/modelQuery.php', $this->app_path . $this->models_path . '/base/' . $this->convert_name . 'Query.php', $render_data, '');
         //生成model
-        generate('model/model.php',$this->app_path.$this->models_path.'/'.$this->convert_name.'.php',$render_data,'');
-        exit;
+        $file = $this->app_path . $this->models_path . '/' . $prifix[0] . '/' . $this->convert_name . '.php';
+        $model_jump =true;
+        if (!is_file($file) || $model_jump ==true) {
+            generate('model/model.php', $file, $render_data, '');
+        }
+
+    }
+
+    public function laravel_attr()
+    {
+        $this->table_name;
+        $this->laravel_attr .= '
+        /**
+         * 表名
+         *
+         * @var string
+         */
+        protected $table = "' . $this->table_name . '";
+            ';
+
+        $fillable = '';
+        foreach ($this->cloumn_list as $key=>$value){
+            $fillable.='"'.$value['name'].'",';
+        }
+        $this->laravel_attr.= '
+        /**
+         * 可以被集体附值的表的字段
+         *
+         * @var string
+         */
+        protected $fillable = array('.$fillable.');
+        ';
     }
 
     /**
@@ -94,13 +147,14 @@ table_schema = '" . $obj->dbName . "'
      * 生成函数
      */
     public function functions($obj)
-    {   $data ='';
+    {
+        $data = '';
         $obj_name = $obj['name'];
         $Obj_Bname = Character::convertUnderline($obj_name);
         $data .= '
         /**
-        * 获取一条数据条件：'.$obj_name.'
-        * @param $'.$obj_name.'
+        * 获取一条数据条件：' . $obj_name . '
+        * @param $' . $obj_name . '
         * @return mixed
         */
         ';
@@ -111,14 +165,14 @@ table_schema = '" . $obj->dbName . "'
         }' . PHP_EOL;
         $data .= '
         /**
-        * 获取列表条件：'.$obj_name.'
-        * @param $'.$obj_name.'
+        * 获取列表条件：' . $obj_name . '
+        * @param $' . $obj_name . '
         * @return mixed
         */
         ';
         $data .= 'public static function getListBy' . $Obj_Bname . '($' . $obj_name . ')
         {
-            return static::getOneByFind(static::findBy' . $Obj_Bname . '($' . $obj_name . '));
+            return static::getListByFind(static::findBy' . $Obj_Bname . '($' . $obj_name . '));
 
         }' . PHP_EOL;
         return $data;
@@ -131,16 +185,16 @@ table_schema = '" . $obj->dbName . "'
      */
     public static function query($obj_name)
     {
-        $data ='';
+        $data = '';
         $Obj_Bname = Character::convertUnderline($obj_name);
         $data .= '
         /**
-        * 查询条件：'.$obj_name.'
-        * @param $'.$obj_name.'
+        * 查询条件：' . $obj_name . '
+        * @param $' . $obj_name . '
         * @return Builder
         */
         ';
-        $data.= 'public static function findBy' . $Obj_Bname . '($' . $obj_name . ')
+        $data .= 'public static function findBy' . $Obj_Bname . '($' . $obj_name . ')
         {
             return static::query()->where(["' . $obj_name . '"=>$' . $obj_name . ']);
         }' . PHP_EOL;
@@ -167,13 +221,23 @@ table_schema = '" . $obj->dbName . "'
             $name = strtoupper($value['name']);
             $arr = PHP_EOL;
             //1.备货中
+
             foreach ($exp as $key => $value) {
                 $exp2 = explode('.', $value);
+                if (empty($exp2[0]) || empty($exp2[1])) {
+                    continue;
+                }
 //                    $arr.="'".$exp2[0]."'=>'".$exp2[1]."'";
-                $arr .= "'" . $exp2[0] . "'=>'" . $exp2[1] . "';" . PHP_EOL;
+                $arr .= "          '" . $exp2[0] . "' => '" . $exp2[1] . "'," . PHP_EOL;
             }
-            return PHP_EOL . "const $name = [
-                  " . $arr . PHP_EOL . "];";
+            $res = ' 
+       /**
+        * 属性：' . $name . '
+        */';
+            $res .= "
+        const $name = [" . $arr . "
+            ];" . PHP_EOL;
+            return $res;
         }
 
 
@@ -186,11 +250,13 @@ table_schema = '" . $obj->dbName . "'
             //1.备货中
             foreach ($exp as $key => $value) {
                 $exp2 = explode('.', $value);
-                $arr .= "'" . $exp2[0] . "'=>'" . $exp2[1] . "'";
+                $arr .= "'" . $exp2[0] . "' => '" . $exp2[1] . "'," . PHP_EOL;
             }
-            return "const $name = [
-                  " . $arr . "
-                ];";
+            $res = "
+        const $name = [
+            " . $arr . "
+                ];" . PHP_EOL;
+            return $res;
         }
         return '';
     }

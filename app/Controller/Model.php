@@ -17,6 +17,7 @@ class Model
     public function generate(){
         if(!empty($_POST)){
             $factory = new Factory();
+            define('FRAMEWORK',$_POST['framework']);
             $res =$factory->doModel($_POST['framework'])->generate($_POST['table_name']);
             $res?back('成功'):back('失败');
         }else{
@@ -34,6 +35,24 @@ class Model
             return view('generate',$vendor);
         }
 
+    }
+
+    /**
+     * 生成全部
+     */
+    public function generate_all(){
+        $factory = new Factory();
+//        foreach ()
+        $id = cache('id');
+        $obj = PDOs::getInstance($id);
+        define('FRAMEWORK',$_POST['framework']);
+        //获取数据表
+        $pdo = $obj->query("select table_name from information_schema.tables where table_schema= '".$obj->dbName."'");
+        foreach ($pdo as $key=>$value){
+            $res =$factory->doModel($_POST['framework'])->generate($value['table_name']);
+        }
+
+//        $res?back('成功'):back('失败');
     }
 
 }

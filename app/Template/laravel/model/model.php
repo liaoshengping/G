@@ -1,6 +1,6 @@
 <?php echo '<?php'?>
 
-namespace App\Models;
+namespace App\Models\<?php echo $prifix ?>;
 
 use App\Models\base\<?php echo $convert_name?>Query;
 /**

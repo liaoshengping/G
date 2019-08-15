@@ -35,7 +35,7 @@ function render($name, array $data = [])
 //    echo "kkk";exit;
 //    echo $name.PHP_EOL;
     ob_start();
-    require_once($path);
+    require($path);
     $ob_content = ob_get_contents();
     ob_clean();
     return $ob_content;

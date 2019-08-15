@@ -15,7 +15,7 @@
 </div>
 <body >
 <div class="container">
-    <form class="form-control" method="post" action="/model/generate/id/<?php echo $work['id']?>">
+    <form class="form-control" method="post" action="/model/generate_all/id/<?php echo $work['id']?>">
         <h2>生成模型</h2>
         <label class="label">表名</label>
         <select  class="form-control" name="table_name" id="select">
